@@ -1,10 +1,13 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { plainToClass } from 'class-transformer';
 import { validateSync } from 'class-validator';
+import * as dotenv from 'dotenv';
 
 import { EnvConfig } from '../config/config.env';
 
 import { TypeOrmNamingStrategy } from './typeorm-naming-strategy';
+
+dotenv.config();
 
 const env = plainToClass(
   EnvConfig,
@@ -29,6 +32,7 @@ const options: TypeOrmModuleOptions = {
   migrations: [`${__dirname}/../migrations/*.{ts,js}`],
   namingStrategy: new TypeOrmNamingStrategy(),
   logging: env.TYPEORM_LOGGING,
+  synchronize: true,
   cli: {
     migrationsDir: 'src/migrations',
   },

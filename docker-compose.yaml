@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  postgres:
+    container_name: postgres
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: $DOCKER_POSTGRESQL_USER
+      POSTGRES_PASSWORD: $DOCKER_POSTGRESQL_PASSWORD
+      POSTGRES_DB: $DOCKER_POSTGRESQL_DB
+    volumes:
+      - postgres-db:/data/postgres
+    ports:
+      - '5432:5432'
+  redis:
+    container_name: redis
+    image: 'redis:7.0-alpine'
+    restart: unless-stopped
+    env_file: ./.env
+    command:
+      - --loglevel warning
+      - --requirepass "$DOCKER_REDIS_PASSWORD"
+    ports:
+      - $DOCKER_REDIS_PORT_LOCAL:$DOCKER_REDIS_PORT_CONTAINER
+    environment:
+      - REDIS_REPLICATION_MODE=master
+    depends_on:
+      - postgres
+volumes:
+  postgres-db:
+    driver: local

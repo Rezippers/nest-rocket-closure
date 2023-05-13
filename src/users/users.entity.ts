@@ -18,7 +18,6 @@ export class User {
   readonly id: number;
 
   @Field()
-  @Index({ unique: true })
   @Column()
   name: string;
 

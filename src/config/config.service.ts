@@ -1,6 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { plainToClass } from 'class-transformer';
 import { validateSync } from 'class-validator';
+import * as dotenv from 'dotenv';
 
 import { EnvConfig } from './config.env';
 
@@ -11,6 +12,7 @@ export class ConfigService {
   constructor() {
     Logger.debug('Init', this.constructor.name);
 
+    dotenv.config();
     const env = plainToClass(
       EnvConfig,
       { ...EnvConfig.getDefaultObject(), ...process.env },
