@@ -33,7 +33,12 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged"
+      "pre-commit": "lint-staged",
+      "exclude": [
+        "dist/**/*",
+        "node_modules/**/*",
+        "src/migrations"
+      ]
     }
   },
   "lint-staged": {
