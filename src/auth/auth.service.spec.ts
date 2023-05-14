@@ -26,14 +26,14 @@ describe('AuthService', () => {
       useValue: jwtServiceMockValue,
     };
     const usersServiceMockValue = {
-      findOneByName: () => 'mock',
+      save: () => 'mock',
     };
     const UsersServiceMock = {
       provide: UsersService,
       useValue: usersServiceMockValue,
     };
     const usersRepoMockValue = {
-      save: () => 'mock',
+      findOne: () => 'mock',
     };
     const UsersRepoMock = {
       provide: 'UserRepository',
@@ -53,47 +53,11 @@ describe('AuthService', () => {
     expect(service).toBeDefined();
   });
 
-  describe('signUp', () => {
-    it('should save user with hashed password', async () => {
-      const input: SignUpInput = {
-        name: 'a',
-        email: 'a@example.com',
-        password: 'secret',
-      };
-      const result = plainToClass(User, {
-        id: 1,
-        name: 'a',
-        email: 'a@example.com',
-      });
-
-      const mockSalt = 'salt';
-      const genSaltSync = jest
-        .spyOn(bcrypt, 'genSaltSync')
-        .mockReturnValue(mockSalt);
-      const mockHash = 'hash';
-      const hashSync = jest.spyOn(bcrypt, 'hashSync').mockReturnValue(mockHash);
-      const save = jest
-        .spyOn(usersRepo, 'save')
-        .mockReturnValue(new Promise<User>((resolve) => resolve(result)));
-
-      expect(await service.signUp(input)).toBe(result);
-      expect(genSaltSync.mock.calls[0][0]).toBe(10);
-      expect(hashSync.mock.calls[0][0]).toBe(input.password);
-      expect(hashSync.mock.calls[0][1]).toBe(mockSalt);
-      const saveInput = { ...input, password: mockHash };
-      expect(save.mock.calls[0][0]).toEqual(saveInput);
-
-      genSaltSync.mockRestore();
-      hashSync.mockRestore();
-      save.mockRestore();
-    });
-  });
-
   describe('signIn', () => {
     describe('when the user exists', () => {
       it('should return valid token', async () => {
         const input: SignInInput = {
-          name: 'a',
+          email: 'a@example.com',
           password: 'secret',
         };
         const user = plainToClass(User, {
@@ -104,8 +68,8 @@ describe('AuthService', () => {
         const token = 'j.w.t';
         const result = { ...user, token };
 
-        const findOneByName = jest
-          .spyOn(usersService, 'findOneByName')
+        const findOneByEmail = jest
+          .spyOn(usersRepo, 'findOne')
           .mockReturnValue(new Promise<User>((resolve) => resolve(user)));
 
         const compare = (
@@ -114,9 +78,9 @@ describe('AuthService', () => {
         const sign = jest.spyOn(jwtService, 'sign').mockReturnValue(token);
 
         expect(await service.signIn(input)).toEqual(result);
-        expect(findOneByName.mock.calls[0][0]).toBe(input.name);
+        expect(findOneByEmail.mock.calls[0][0].email).toBe(input.email);
 
-        findOneByName.mockRestore();
+        findOneByEmail.mockRestore();
         compare.mockRestore();
         sign.mockRestore();
       });
@@ -125,27 +89,27 @@ describe('AuthService', () => {
     describe('when the user does not exist', () => {
       it('should return empty token', async () => {
         const input: SignInInput = {
-          name: 'a',
+          email: 'a@example.com',
           password: 'secret',
         };
         const user = undefined;
         const result = {};
 
-        const findOneByName = jest
-          .spyOn(usersService, 'findOneByName')
+        const findOneByEmail = jest
+          .spyOn(usersRepo, 'findOne')
           .mockReturnValue(new Promise<undefined>((resolve) => resolve(user)));
 
         expect(await service.signIn(input)).toEqual(result);
-        expect(findOneByName.mock.calls[0][0]).toBe(input.name);
+        expect(findOneByEmail.mock.calls[0][0].email).toBe(input.email);
 
-        findOneByName.mockRestore();
+        findOneByEmail.mockRestore();
       });
     });
 
     describe('when the password is invalid', () => {
       it('should return empty token', async () => {
         const input: SignInInput = {
-          name: 'a',
+          email: 'a@example.com',
           password: 'secret',
         };
         const user = plainToClass(User, {
@@ -155,41 +119,21 @@ describe('AuthService', () => {
         });
         const result = {};
 
-        const findOneByName = jest
-          .spyOn(usersService, 'findOneByName')
+        const findOneByEmail = jest
+          .spyOn(usersRepo, 'findOne')
           .mockReturnValue(new Promise<User>((resolve) => resolve(user)));
         const compare = (
           jest.spyOn(bcrypt, 'compare') as jest.SpyInstance
         ).mockReturnValue(new Promise<boolean>((resolve) => resolve(false)));
 
         expect(await service.signIn(input)).toEqual(result);
-        expect(findOneByName.mock.calls[0][0]).toBe(input.name);
+        expect(findOneByEmail.mock.calls[0][0].email).toBe(input.email);
         expect(compare.mock.calls[0][0]).toBe(input.password);
         expect(compare.mock.calls[0][1]).toBe(user.password);
 
-        findOneByName.mockRestore();
+        findOneByEmail.mockRestore();
         compare.mockRestore();
       });
-    });
-  });
-
-  describe('validateUser', () => {
-    it('should call usersService.findOneByName', async () => {
-      const input = {
-        id: 1,
-        name: 'a',
-        email: 'a@example.com',
-      };
-      const result = plainToClass(User, input);
-
-      const findOneByName = jest
-        .spyOn(usersService, 'findOneByName')
-        .mockReturnValue(new Promise<User>((resolve) => resolve(result)));
-
-      expect(await service.validateUser(input)).toEqual(result);
-      expect(findOneByName.mock.calls[0][0]).toBe(input.name);
-
-      findOneByName.mockRestore();
     });
   });
 });

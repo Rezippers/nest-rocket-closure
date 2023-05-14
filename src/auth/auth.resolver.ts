@@ -1,4 +1,4 @@
-import { BadRequestException } from '@nestjs/common';
+import { UnauthorizedException } from '@nestjs/common';
 import { Args, Mutation, Resolver } from '@nestjs/graphql';
 
 import { User } from '../users/users.entity';
@@ -22,7 +22,7 @@ export class AuthResolver {
   async signIn(@Args('input') input: SignInInput): Promise<SignInResult> {
     const result = await this.authService.signIn(input);
     if (!result.token) {
-      throw new BadRequestException();
+      throw new UnauthorizedException();
     }
     return result;
   }

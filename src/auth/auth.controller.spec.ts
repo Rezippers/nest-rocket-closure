@@ -1,4 +1,4 @@
-import { BadRequestException } from '@nestjs/common';
+import { UnauthorizedException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { plainToClass } from 'class-transformer';
 
@@ -63,7 +63,7 @@ describe('Auth Controller', () => {
     describe('when sign-in is successful', () => {
       it('should return token', async () => {
         const input: SignInInput = {
-          name: 'a',
+          email: 'a@example.com',
           password: 'secret',
         };
         const result = plainToClass(SignInResult, {
@@ -81,9 +81,9 @@ describe('Auth Controller', () => {
     });
 
     describe('when sign-in failed', () => {
-      it('should throw BadRequestException', async () => {
+      it('should throw UnauthorizedException', async () => {
         const input: SignInInput = {
-          name: 'a',
+          email: 'a@example.com',
           password: 'secret',
         };
         const result = plainToClass(SignInResult, {
@@ -94,7 +94,7 @@ describe('Auth Controller', () => {
         const signIn = jest.spyOn(service, 'signIn').mockReturnValue(rv);
 
         const l = controller.signIn(input);
-        await expect(l).rejects.toThrow(BadRequestException);
+        await expect(l).rejects.toThrow(UnauthorizedException);
         expect(signIn.mock.calls[0][0]).toBe(input);
 
         signIn.mockRestore();

@@ -1,9 +1,9 @@
 import {
-  BadRequestException,
   Body,
   ClassSerializerInterceptor,
   Controller,
   Post,
+  UnauthorizedException,
   UseInterceptors,
 } from '@nestjs/common';
 
@@ -28,9 +28,8 @@ export class AuthController {
   @Post('signin')
   async signIn(@Body() input: SignInInput): Promise<SignInResult> {
     const result = await this.authService.signIn(input);
-    if (!result.token) {
-      throw new BadRequestException();
-    }
+    if (!result.token) throw new UnauthorizedException();
+
     return result;
   }
 }
