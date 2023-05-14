@@ -3,11 +3,11 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { GqlOptionsService } from './appoptions/gql-options.service';
-import { AuthModule } from './auth/auth.module';
+import { AuthModule } from './modules/auth/auth.module';
 import { ConfigModule } from './modules/config/config.module';
 import { HealthModule } from './modules/health/health.module';
+import { StoreModule } from './modules/store/store.module';
 import { TypeOrmOptionsService } from './typeorm/typeorm-options.service';
-import { StoreModule } from './store/store.module';
 
 @Module({
   imports: [

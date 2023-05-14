@@ -4,8 +4,8 @@ import * as bcrypt from 'bcrypt';
 import { plainToClass } from 'class-transformer';
 import { Repository } from 'typeorm';
 
-import { User } from '../modules/users/users.entity';
-import { UsersService } from '../modules/users/users.service';
+import { User } from '../users/users.entity';
+import { UsersService } from '../users/users.service';
 
 import { AuthService } from './auth.service';
 import { SignInInput } from './dto/sign-in-input.dto';

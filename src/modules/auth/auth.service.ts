@@ -3,9 +3,9 @@ import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { PasswordHelper } from '../helpers/password.helper';
-import { User } from '../modules/users/users.entity';
-import { UsersService } from '../modules/users/users.service';
+import { PasswordHelper } from '../../helpers/password.helper';
+import { User } from '../users/users.entity';
+import { UsersService } from '../users/users.service';
 
 import { JwtPayload } from './dto/jwt-payload.dto';
 import { SignInInput } from './dto/sign-in-input.dto';

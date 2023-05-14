@@ -7,7 +7,7 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 
-import { User } from '../modules/users/users.entity';
+import { User } from '../users/users.entity';
 
 import { AuthService } from './auth.service';
 import { SignInInput } from './dto/sign-in-input.dto';

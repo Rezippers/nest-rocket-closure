@@ -2,16 +2,16 @@ import { UnauthorizedException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { plainToClass } from 'class-transformer';
 
-import { User } from '../modules/users/users.entity';
+import { User } from '../users/users.entity';
 
-import { AuthResolver } from './auth.resolver';
+import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { SignInInput } from './dto/sign-in-input.dto';
 import { SignInResult } from './dto/sign-in-result.dto';
 import { SignUpInput } from './dto/sign-up-input.dto';
 
-describe('AuthResolver', () => {
-  let resolver: AuthResolver;
+describe('Auth Controller', () => {
+  let controller: AuthController;
   let service: AuthService;
 
   beforeEach(async () => {
@@ -24,15 +24,16 @@ describe('AuthResolver', () => {
       useValue: authServiceMockValue,
     };
     const module: TestingModule = await Test.createTestingModule({
-      providers: [AuthResolver, AuthServiceMock],
+      controllers: [AuthController],
+      providers: [AuthServiceMock],
     }).compile();
 
     service = module.get<AuthService>(AuthService);
-    resolver = module.get<AuthResolver>(AuthResolver);
+    controller = module.get<AuthController>(AuthController);
   });
 
   it('should be defined', () => {
-    expect(resolver).toBeDefined();
+    expect(controller).toBeDefined();
   });
 
   describe('signUp', () => {
@@ -51,7 +52,7 @@ describe('AuthResolver', () => {
       const rv = new Promise<User>((resolve) => resolve(result));
       const signUp = jest.spyOn(service, 'signUp').mockReturnValue(rv);
 
-      expect(await resolver.signUp(input)).toBe(result);
+      expect(await controller.signUp(input)).toBe(result);
       expect(signUp.mock.calls[0][0]).toBe(input);
 
       signUp.mockRestore();
@@ -72,7 +73,7 @@ describe('AuthResolver', () => {
         const rv = new Promise<SignInResult>((resolve) => resolve(result));
         const signIn = jest.spyOn(service, 'signIn').mockReturnValue(rv);
 
-        expect(await resolver.signIn(input)).toBe(result);
+        expect(await controller.signIn(input)).toBe(result);
         expect(signIn.mock.calls[0][0]).toBe(input);
 
         signIn.mockRestore();
@@ -92,7 +93,7 @@ describe('AuthResolver', () => {
         const rv = new Promise<SignInResult>((resolve) => resolve(result));
         const signIn = jest.spyOn(service, 'signIn').mockReturnValue(rv);
 
-        const l = resolver.signIn(input);
+        const l = controller.signIn(input);
         await expect(l).rejects.toThrow(UnauthorizedException);
         expect(signIn.mock.calls[0][0]).toBe(input);
 

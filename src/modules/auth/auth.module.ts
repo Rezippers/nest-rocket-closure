@@ -3,10 +3,10 @@ import { JwtModule, JwtModuleOptions } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { ConfigModule } from '../modules/config/config.module';
-import { ConfigService } from '../modules/config/config.service';
-import { User } from '../modules/users/users.entity';
-import { UsersModule } from '../modules/users/users.module';
+import { ConfigModule } from '../config/config.module';
+import { ConfigService } from '../config/config.service';
+import { User } from '../users/users.entity';
+import { UsersModule } from '../users/users.module';
 
 import { AuthOptionsService } from './auth-options.service';
 import { AuthController } from './auth.controller';
