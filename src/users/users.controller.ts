@@ -2,6 +2,7 @@ import {
   ClassSerializerInterceptor,
   Controller,
   Get,
+  NotFoundException,
   Param,
   UseGuards,
   UseInterceptors,
@@ -31,6 +32,7 @@ export class UsersController {
   @Get(':name')
   async findOneByName(@Param('name') name: string): Promise<User> {
     const user = await this.usersService.findOneByName(name);
+    if (!user) throw new NotFoundException();
     return user;
   }
 }

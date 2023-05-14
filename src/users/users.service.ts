@@ -18,7 +18,7 @@ export class UsersService {
 
     const u = new User();
     Object.assign(u, { email, name });
-    u.password = await PasswordHelper.hashPassword(u.password);
+    u.password = await PasswordHelper.hashPassword(password);
 
     return this.usersRepo.save(u);
   }

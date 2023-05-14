@@ -28,7 +28,7 @@ type SignInResult {
 
 type Query {
   users: [User!]!
-  user(name: String!): User!
+  user(name: String!): User
 }
 
 type Mutation {
@@ -43,6 +43,6 @@ input SignUpInput {
 }
 
 input SignInInput {
-  name: String!
+  email: String!
   password: String!
 }
