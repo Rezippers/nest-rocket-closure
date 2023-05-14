@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { TypeOrmModuleOptions, TypeOrmOptionsFactory } from '@nestjs/typeorm';
 
-import { ConfigService } from '../config/config.service';
+import { ConfigService } from '../modules/config/config.service';
 
 // eslint-disable-next-line import/namespace
 import * as postgres from './ormconfig.postgres';

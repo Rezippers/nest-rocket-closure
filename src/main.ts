@@ -9,7 +9,7 @@ import * as compression from 'compression';
 import * as helmet from 'helmet';
 
 import { AppModule } from './app.module';
-import { ConfigService } from './config/config.service';
+import { ConfigService } from './modules/config/config.service';
 
 async function bootstrap(): Promise<void> {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);

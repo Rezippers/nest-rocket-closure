@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { AuthModuleOptions, AuthOptionsFactory } from '@nestjs/passport';
 
-import { ConfigService } from '../config/config.service';
+import { ConfigService } from '../modules/config/config.service';
 
 @Injectable()
 export class AuthOptionsService implements AuthOptionsFactory {

@@ -2,7 +2,7 @@ import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { plainToClass } from 'class-transformer';
 import { validateSync } from 'class-validator';
 
-import { EnvConfig } from '../config/config.env';
+import { EnvConfig } from '../modules/config/config.env';
 
 import { TypeOrmNamingStrategy } from './typeorm-naming-strategy';
 
