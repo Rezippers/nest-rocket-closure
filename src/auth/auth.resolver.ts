@@ -1,7 +1,7 @@
 import { UnauthorizedException } from '@nestjs/common';
 import { Args, Mutation, Resolver } from '@nestjs/graphql';
 
-import { User } from '../users/users.entity';
+import { User } from '../modules/users/users.entity';
 
 import { AuthService } from './auth.service';
 import { SignInInput } from './dto/sign-in-input.dto';

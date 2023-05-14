@@ -5,8 +5,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { ConfigModule } from '../config/config.module';
 import { ConfigService } from '../config/config.service';
-import { User } from '../users/users.entity';
-import { UsersModule } from '../users/users.module';
+import { User } from '../modules/users/users.entity';
+import { UsersModule } from '../modules/users/users.module';
 
 import { AuthOptionsService } from './auth-options.service';
 import { AuthController } from './auth.controller';

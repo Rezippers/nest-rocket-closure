@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { PasswordHelper } from '../helpers/password.helper';
+import { PasswordHelper } from '../../helpers/password.helper';
 
 import { User } from './users.entity';
 

@@ -2,8 +2,8 @@ import { Module } from '@nestjs/common';
 import { PassportModule } from '@nestjs/passport';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { AuthOptionsService } from '../auth/auth-options.service';
-import { ConfigModule } from '../config/config.module';
+import { AuthOptionsService } from '../../auth/auth-options.service';
+import { ConfigModule } from '../../config/config.module';
 
 import { UsersController } from './users.controller';
 import { User } from './users.entity';

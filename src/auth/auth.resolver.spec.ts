@@ -2,7 +2,7 @@ import { UnauthorizedException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { plainToClass } from 'class-transformer';
 
-import { User } from '../users/users.entity';
+import { User } from '../modules/users/users.entity';
 
 import { AuthResolver } from './auth.resolver';
 import { AuthService } from './auth.service';
