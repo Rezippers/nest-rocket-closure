@@ -1,22 +1,12 @@
-import { Field, ID, Int, ObjectType } from '@nestjs/graphql';
+import { Field, ObjectType } from '@nestjs/graphql';
 import { Exclude } from 'class-transformer';
-import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  Index,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
-  VersionColumn,
-} from 'typeorm';
+import { Column, Entity, Index } from 'typeorm';
+
+import { CustomBaseEntity } from '../shared/custom-base.entity';
 
 @ObjectType()
 @Entity()
-export class User {
-  @Field((type) => ID)
-  @PrimaryGeneratedColumn()
-  readonly id: number;
-
+export class User extends CustomBaseEntity {
   @Field()
   @Column()
   name: string;
@@ -29,16 +19,4 @@ export class User {
   @Exclude({ toPlainOnly: true })
   @Column()
   password: string;
-
-  @Field()
-  @CreateDateColumn()
-  readonly createdAt: Date;
-
-  @Field()
-  @UpdateDateColumn()
-  readonly updatedAt: Date;
-
-  @Field((type) => Int)
-  @VersionColumn()
-  readonly version: number;
 }
