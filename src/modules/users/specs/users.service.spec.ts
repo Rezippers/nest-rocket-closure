@@ -2,8 +2,8 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { plainToClass } from 'class-transformer';
 import { Repository } from 'typeorm';
 
-import { User } from './users.entity';
-import { UsersService } from './users.service';
+import { User } from '../users.entity';
+import { UsersService } from '../users.service';
 
 describe('UsersService', () => {
   let service: UsersService;

@@ -2,12 +2,12 @@ import { PassportModule } from '@nestjs/passport';
 import { Test, TestingModule } from '@nestjs/testing';
 import { plainToClass } from 'class-transformer';
 
-import { UsersController } from './users.controller';
-import { User } from './users.entity';
-import { UsersService } from './users.service';
+import { User } from '../users.entity';
+import { UsersResolver } from '../users.resolver';
+import { UsersService } from '../users.service';
 
-describe('Users Controller', () => {
-  let controller: UsersController;
+describe('UsersResolver', () => {
+  let resolver: UsersResolver;
   let service: UsersService;
 
   beforeEach(async () => {
@@ -21,19 +21,18 @@ describe('Users Controller', () => {
     };
     const module: TestingModule = await Test.createTestingModule({
       imports: [PassportModule.register({ defaultStrategy: 'mock' })],
-      controllers: [UsersController],
-      providers: [UsersServiceMock],
+      providers: [UsersResolver, UsersServiceMock],
     }).compile();
 
-    controller = module.get<UsersController>(UsersController);
+    resolver = module.get<UsersResolver>(UsersResolver);
     service = module.get<UsersService>(UsersService);
   });
 
   it('should be defined', () => {
-    expect(controller).toBeDefined();
+    expect(resolver).toBeDefined();
   });
 
-  describe('findAll', () => {
+  describe('users', () => {
     it('should return the users', async () => {
       const result = [
         plainToClass(User, {
@@ -47,12 +46,12 @@ describe('Users Controller', () => {
         .spyOn(service, 'findAll')
         .mockReturnValue(new Promise<User[]>((resolve) => resolve(result)));
 
-      expect(await controller.findAll()).toEqual(result);
+      expect(await resolver.users()).toEqual(result);
       expect(findAll.mock.calls).toHaveLength(1);
     });
   });
 
-  describe('findOneByName', () => {
+  describe('user', () => {
     it('should return the user', async () => {
       const input = 'a';
       const result = plainToClass(User, {
@@ -65,7 +64,7 @@ describe('Users Controller', () => {
         .spyOn(service, 'findOneByName')
         .mockReturnValue(new Promise<User>((resolve) => resolve(result)));
 
-      expect(await controller.findOneByName(input)).toEqual(result);
+      expect(await resolver.user(input)).toEqual(result);
       expect(findOneByName.mock.calls[0][0]).toEqual(input);
     });
   });

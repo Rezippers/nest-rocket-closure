@@ -4,17 +4,14 @@ import * as bcrypt from 'bcrypt';
 import { plainToClass } from 'class-transformer';
 import { Repository } from 'typeorm';
 
-import { User } from '../users/users.entity';
-import { UsersService } from '../users/users.service';
-
-import { AuthService } from './auth.service';
-import { SignInInput } from './dto/sign-in-input.dto';
-import { SignUpInput } from './dto/sign-up-input.dto';
+import { User } from '../../users/users.entity';
+import { UsersService } from '../../users/users.service';
+import { AuthService } from '../auth.service';
+import { SignInInput } from '../dto/sign-in-input.dto';
 
 describe('AuthService', () => {
   let service: AuthService;
   let jwtService: JwtService;
-  let usersService: UsersService;
   let usersRepo: Repository<User>;
 
   beforeEach(async () => {
@@ -45,7 +42,6 @@ describe('AuthService', () => {
 
     service = module.get<AuthService>(AuthService);
     jwtService = module.get<JwtService>(JwtService);
-    usersService = module.get<UsersService>(UsersService);
     usersRepo = module.get<Repository<User>>('UserRepository');
   });
 
