@@ -8,7 +8,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import * as compression from 'compression';
 import * as helmet from 'helmet';
 
-import { AppModule } from './app.module';
+import { AppModule } from './modules/app.module';
 import { ConfigService } from './modules/config/config.service';
 
 async function bootstrap(): Promise<void> {
