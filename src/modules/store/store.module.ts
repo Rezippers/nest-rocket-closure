@@ -1,6 +1,8 @@
-import { Module } from '@nestjs/common';
+import {Module} from '@nestjs/common';
 
-import { StoreResolver, StoreService } from '.';
+import {StoreResolver} from "./store.resolver";
+import {StoreService} from "./store.service";
+
 
 @Module({
   providers: [StoreResolver, StoreService],

@@ -4,11 +4,11 @@
 
 type User {
   id: ID!
-  name: String!
-  email: String!
   createdAt: DateTime!
   updatedAt: DateTime!
   version: Int!
+  name: String!
+  email: String!
 }
 
 """
@@ -18,22 +18,67 @@ scalar DateTime
 
 type SignInResult {
   id: ID!
-  name: String!
-  email: String!
   createdAt: DateTime!
   updatedAt: DateTime!
   version: Int!
+  name: String!
+  email: String!
   token: String!
+}
+
+type RezippersFile {
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  version: Int!
+  author: User!
+  key: String!
+}
+
+type ProductMedia {
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  version: Int!
+  product: Product!
+  file: RezippersFile!
+}
+
+type Product {
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  version: Int!
+  name: String!
+  description: String!
+  price: Decimal!
+  media: [ProductMedia!]!
+}
+
+"""Date custom scalar type"""
+scalar Decimal
+
+type Store {
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  version: Int!
+  name: String!
+  owner: User!
 }
 
 type Query {
   users: [User!]!
   user(name: String!): User
+  store(id: Int!): Store!
 }
 
 type Mutation {
   signUp(input: SignUpInput!): User!
   signIn(input: SignInInput!): SignInResult!
+  createStore(createStoreInput: CreateStoreInput!): Store!
+  updateStore(updateStoreInput: UpdateStoreInput!): Store!
+  removeStore(id: Int!): Store!
 }
 
 input SignUpInput {
@@ -45,4 +90,15 @@ input SignUpInput {
 input SignInInput {
   email: String!
   password: String!
+}
+
+input CreateStoreInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdateStoreInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
 }

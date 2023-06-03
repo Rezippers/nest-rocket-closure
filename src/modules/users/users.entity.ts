@@ -1,8 +1,9 @@
-import { Field, ObjectType } from '@nestjs/graphql';
-import { Exclude } from 'class-transformer';
-import { Column, Entity, Index } from 'typeorm';
+import {Field, ObjectType} from '@nestjs/graphql';
+import {Exclude} from 'class-transformer';
+import {Column, Entity, Index} from 'typeorm';
 
-import { CustomBaseEntity } from '../../shared/custom-base.entity';
+import {CustomBaseEntity} from "../../shared/entities/custom-base-entity.entity";
+
 
 @ObjectType()
 @Entity()

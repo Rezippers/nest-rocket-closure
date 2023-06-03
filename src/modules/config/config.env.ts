@@ -52,6 +52,18 @@ export class EnvConfig {
   @IsString()
   GQL_SCHEMA_FILE: string;
 
+  @IsString()
+  AWS_ACCESS_KEY_ID: string;
+
+  @IsString()
+  AWS_SECRET_ACCESS_KEY: string;
+
+  @IsString()
+  AWS_REGION: string;
+
+  @IsString()
+  AWS_S3_BUCKET: string;
+
   static getDefaultObject(): EnvConfig {
     const obj = new EnvConfig();
     obj.NODE_ENV = 'development';
