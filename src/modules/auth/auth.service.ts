@@ -1,16 +1,16 @@
-import { Injectable } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import {Injectable} from '@nestjs/common';
+import {JwtService} from '@nestjs/jwt';
+import {InjectRepository} from '@nestjs/typeorm';
+import {Repository} from 'typeorm';
 
-import { PasswordHelper } from '../../helpers/password.helper';
-import { User } from '../users/users.entity';
-import { UsersService } from '../users/users.service';
+import {PasswordHelper} from '../../helpers/password.helper';
+import {User} from '../users/users.entity';
+import {UsersService} from '../users/users.service';
 
-import { JwtPayload } from './dto/jwt-payload.dto';
-import { SignInInput } from './dto/sign-in-input.dto';
-import { SignInResult } from './dto/sign-in-result.dto';
-import { SignUpInput } from './dto/sign-up-input.dto';
+import {JwtPayload} from './dto/jwt-payload.dto';
+import {SignInInput} from './dto/sign-in-input.dto';
+import {SignInResult} from './dto/sign-in-result.dto';
+import {SignUpInput} from './dto/sign-up-input.dto';
 
 @Injectable()
 export class AuthService {
@@ -30,7 +30,7 @@ export class AuthService {
   }
 
   async signIn(input: SignInInput): Promise<SignInResult> {
-    const user = await this.usersRepo.findOne({ email: input.email });
+    const user: User = await this.usersRepo.findOne({ email: input.email });
     if (!user) return new SignInResult();
 
     const valid = await PasswordHelper.comparePassword(

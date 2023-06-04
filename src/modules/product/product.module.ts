@@ -1,14 +1,12 @@
 import {Module} from '@nestjs/common';
 import {TypeOrmModule} from "@nestjs/typeorm";
 
-import {RezippersFileModule} from "../rezippers-file/rezippers-file.module";
-
 import {ProductController} from './product.controller';
 import {Product} from "./product.entity";
 import {ProductService} from './product.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Product]), RezippersFileModule],
+  imports: [TypeOrmModule.forFeature([Product])],
   controllers: [ProductController],
   providers: [ProductService]
 })
