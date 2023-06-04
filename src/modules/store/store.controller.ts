@@ -1,6 +1,9 @@
 import {Body, Controller, Delete, Get, Param, Patch, Post, UseGuards} from '@nestjs/common';
 import {AuthGuard} from "@nestjs/passport";
 
+import {RequestUser} from "../../decorators/request.decorator";
+import {User} from "../users/users.entity";
+
 import {CreateStoreDto} from './dto/create-store.dto';
 import {UpdateStoreDto} from './dto/update-store.dto';
 import {StoreService} from './store.service';
@@ -12,8 +15,8 @@ export class StoreController {
   constructor(private readonly storeService: StoreService) {}
 
   @Post()
-  create(@Body() createStoreDto: CreateStoreDto) {
-    return this.storeService.create(createStoreDto);
+  create(@RequestUser() user: User, @Body() createStoreDto: CreateStoreDto) {
+    return this.storeService.create(user, createStoreDto);
   }
 
   @Get()

@@ -1,4 +1,4 @@
-import {Injectable} from '@nestjs/common';
+import {HttpException, HttpStatus, Injectable} from '@nestjs/common';
 import {InjectRepository} from "@nestjs/typeorm";
 import {Repository} from "typeorm";
 
@@ -16,8 +16,15 @@ export class StoreService {
     private readonly storeRepository: Repository<Store>,
   ) {}
 
-  create(createStoreDto: CreateStoreDto) {
-    return 'This action adds a new store';
+  async create(user: User, createStoreDto: CreateStoreDto): Promise<Store> {
+    const userAlreadyHasStore = !!(await this.storeRepository.createQueryBuilder('store').select('store.id').where('store.user = :user', {user: user.id}).getOne());
+    if (userAlreadyHasStore) throw new HttpException('Usuário já possui uma loja.', HttpStatus.BAD_REQUEST);
+
+    // TODO: Ver com Produto se vamos permitir duas lojas com o mesmo nome (se sim, precisamos de identificador @ pra diferenciar)
+    const store: Store = this.storeRepository.create({...createStoreDto});
+    store.user = user;
+
+    return this.storeRepository.save(store);
   }
 
   findAll() {
@@ -29,7 +36,7 @@ export class StoreService {
   }
 
   findOneByUser(user: User, id: number): Promise<Store> {
-    return this.storeRepository.findOne({where: {user, id}});
+    return this.storeRepository.findOne({ where: { user, id } });
   }
 
   update(id: number, updateStoreDto: UpdateStoreDto) {

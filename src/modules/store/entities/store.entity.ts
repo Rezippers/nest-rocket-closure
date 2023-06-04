@@ -13,7 +13,7 @@ export class Store extends CustomBaseEntity {
   name: string;
 
   @Field((type) => User)
-  @OneToOne(() => User)
+  @OneToOne(() => User, {nullable: false})
   @JoinColumn()
   user: User;
 }

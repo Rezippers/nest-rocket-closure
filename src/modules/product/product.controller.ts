@@ -1,7 +1,7 @@
-import {Body, Controller, Delete, Get, Param, Patch, Post, Req, UseGuards} from '@nestjs/common';
+import {Body, Controller, Delete, Get, Param, Patch, Post, UseGuards} from '@nestjs/common';
 import {AuthGuard} from "@nestjs/passport";
-import {Request} from "express";
 
+import {RequestUser} from "../../decorators/request.decorator";
 import {User} from "../users/users.entity";
 
 import {CreateProductDto} from "./dto/create-product.dto";
@@ -17,8 +17,8 @@ export class ProductController {
     ) {}
 
     @Post()
-    create(@Req() request: Request, @Body() createProductDto: CreateProductDto) {
-        return this.productService.create(request.user as User, createProductDto);
+    create(@RequestUser() user: User, @Body() createProductDto: CreateProductDto) {
+        return this.productService.create(user, createProductDto);
     }
 
     @Get()
