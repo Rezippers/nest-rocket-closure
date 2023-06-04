@@ -1,4 +1,5 @@
-import {Module} from '@nestjs/common';
+import {ClassSerializerInterceptor, Module} from '@nestjs/common';
+import {APP_INTERCEPTOR} from "@nestjs/core";
 import {GraphQLModule} from '@nestjs/graphql';
 import {TypeOrmModule} from '@nestjs/typeorm';
 
@@ -33,6 +34,12 @@ import {StoreModule} from './store/store.module';
     ProductMediaModule,
     S3Module,
   ],
-  providers: [DecimalScalar],
+  providers: [
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: ClassSerializerInterceptor,
+    },
+    DecimalScalar
+  ],
 })
 export class AppModule {}

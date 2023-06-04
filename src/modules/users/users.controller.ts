@@ -1,17 +1,9 @@
-import {
-  ClassSerializerInterceptor,
-  Controller,
-  Get,
-  NotFoundException,
-  Param,
-  UseGuards,
-  UseInterceptors,
-} from '@nestjs/common';
-import { AuthGuard } from '@nestjs/passport';
-import { ApiBearerAuth } from '@nestjs/swagger';
+import {ClassSerializerInterceptor, Controller, Get, NotFoundException, Param, UseGuards, UseInterceptors,} from '@nestjs/common';
+import {AuthGuard} from '@nestjs/passport';
+import {ApiBearerAuth} from '@nestjs/swagger';
 
-import { User } from './users.entity';
-import { UsersService } from './users.service';
+import {User} from './users.entity';
+import {UsersService} from './users.service';
 
 @Controller('api/users')
 export class UsersController {
@@ -19,7 +11,6 @@ export class UsersController {
 
   @UseGuards(AuthGuard())
   @ApiBearerAuth()
-  @UseInterceptors(ClassSerializerInterceptor)
   @Get()
   async findAll(): Promise<User[]> {
     const users = await this.usersService.findAll();

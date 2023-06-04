@@ -1,9 +1,12 @@
-import { Field, ObjectType } from '@nestjs/graphql';
+import {Field, ObjectType} from '@nestjs/graphql';
 
-import { User } from '../../users/users.entity';
+import {User} from '../../users/users.entity';
 
 @ObjectType()
-export class SignInResult extends User {
+export class SignInResult {
   @Field()
   readonly token: string;
+
+  @Field()
+  user: User;
 }

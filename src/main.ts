@@ -1,15 +1,15 @@
 // eslint-disable-next-line unicorn/import-style
-import { join } from 'path';
+import {join} from 'path';
 
-import { ValidationPipe } from '@nestjs/common';
-import { NestFactory } from '@nestjs/core';
-import { NestExpressApplication } from '@nestjs/platform-express';
-import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import {ValidationPipe} from '@nestjs/common';
+import {NestFactory} from '@nestjs/core';
+import {NestExpressApplication} from '@nestjs/platform-express';
+import {DocumentBuilder, SwaggerModule} from '@nestjs/swagger';
 import * as compression from 'compression';
 import * as helmet from 'helmet';
 
-import { AppModule } from './modules/app.module';
-import { ConfigService } from './modules/config/config.service';
+import {AppModule} from './modules/app.module';
+import {ConfigService} from './modules/config/config.service';
 
 async function bootstrap(): Promise<void> {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);

@@ -33,7 +33,7 @@ export class AuthService {
     const user: User = await this.usersRepo.findOne({ email: input.email });
     if (!user) return new SignInResult();
 
-    const valid = await PasswordHelper.comparePassword(
+    const valid: boolean = await PasswordHelper.comparePassword(
       input.password,
       user.password,
     );
@@ -42,9 +42,9 @@ export class AuthService {
     const payload: JwtPayload = {
       id: user.id,
     };
-    const token = this.jwtService.sign(payload);
+    const token: string = this.jwtService.sign(payload);
 
-    return { ...user, token };
+    return { user, token };
   }
 
   async validateUser(payload: JwtPayload): Promise<User> {
