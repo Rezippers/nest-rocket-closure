@@ -1,9 +1,9 @@
-import { Injectable, Logger } from '@nestjs/common';
-import { plainToClass } from 'class-transformer';
-import { validateSync } from 'class-validator';
+import {Injectable, Logger} from '@nestjs/common';
+import {plainToClass} from 'class-transformer';
+import {validateSync} from 'class-validator';
 import * as dotenv from 'dotenv';
 
-import { EnvConfig } from './config.env';
+import {EnvConfig} from './config.env';
 
 @Injectable()
 export class ConfigService {

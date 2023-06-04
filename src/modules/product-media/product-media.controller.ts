@@ -1,4 +1,5 @@
-import {Controller, Param, Post, UploadedFile, UseInterceptors} from '@nestjs/common';
+import {Controller, Param, Post, UploadedFile, UseGuards, UseInterceptors} from '@nestjs/common';
+import {AuthGuard} from "@nestjs/passport";
 import {FileInterceptor} from "@nestjs/platform-express";
 import {InjectRepository} from "@nestjs/typeorm";
 import {Repository} from "typeorm";
@@ -10,6 +11,7 @@ import {ProductMediaService} from './product-media.service';
 
 
 @Controller('product-media')
+@UseGuards(AuthGuard())
 export class ProductMediaController {
     constructor(
         @InjectRepository(Product)

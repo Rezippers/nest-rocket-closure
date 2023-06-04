@@ -15,5 +15,5 @@ export class Store extends CustomBaseEntity {
   @Field((type) => User)
   @OneToOne(() => User)
   @JoinColumn()
-  owner: User;
+  user: User;
 }

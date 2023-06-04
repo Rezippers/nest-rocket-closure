@@ -44,6 +44,15 @@ type ProductMedia {
   file: RezippersFile!
 }
 
+type Store {
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  version: Int!
+  name: String!
+  user: User!
+}
+
 type Product {
   id: ID!
   createdAt: DateTime!
@@ -52,33 +61,21 @@ type Product {
   name: String!
   description: String!
   price: Decimal!
+  store: Store!
   media: [ProductMedia!]!
 }
 
 """Date custom scalar type"""
 scalar Decimal
 
-type Store {
-  id: ID!
-  createdAt: DateTime!
-  updatedAt: DateTime!
-  version: Int!
-  name: String!
-  owner: User!
-}
-
 type Query {
   users: [User!]!
   user(name: String!): User
-  store(id: Int!): Store!
 }
 
 type Mutation {
   signUp(input: SignUpInput!): User!
   signIn(input: SignInInput!): SignInResult!
-  createStore(createStoreInput: CreateStoreInput!): Store!
-  updateStore(updateStoreInput: UpdateStoreInput!): Store!
-  removeStore(id: Int!): Store!
 }
 
 input SignUpInput {
@@ -90,15 +87,4 @@ input SignUpInput {
 input SignInInput {
   email: String!
   password: String!
-}
-
-input CreateStoreInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
-}
-
-input UpdateStoreInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
 }

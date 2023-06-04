@@ -1,4 +1,8 @@
-import {Body, Controller, Delete, Get, Param, Patch, Post} from '@nestjs/common';
+import {Body, Controller, Delete, Get, Param, Patch, Post, Req, UseGuards} from '@nestjs/common';
+import {AuthGuard} from "@nestjs/passport";
+import {Request} from "express";
+
+import {User} from "../users/users.entity";
 
 import {CreateProductDto} from "./dto/create-product.dto";
 import {UpdateProductDto} from './dto/update-product.dto';
@@ -6,14 +10,15 @@ import {Product} from "./product.entity";
 import {ProductService} from './product.service';
 
 @Controller('product')
+@UseGuards(AuthGuard())
 export class ProductController {
     constructor(
         private readonly productService: ProductService,
     ) {}
 
     @Post()
-    create(@Body() createProductDto: CreateProductDto) {
-        return this.productService.create(createProductDto);
+    create(@Req() request: Request, @Body() createProductDto: CreateProductDto) {
+        return this.productService.create(request.user as User, createProductDto);
     }
 
     @Get()
