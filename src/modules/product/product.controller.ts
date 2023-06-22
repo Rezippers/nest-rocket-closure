@@ -1,4 +1,4 @@
-import {Body, Controller, Delete, Get, Param, Patch, Post, UseGuards} from '@nestjs/common';
+import {Body, Controller, Delete, Get, Param, Patch, Post, Query, UseGuards} from '@nestjs/common';
 import {AuthGuard} from "@nestjs/passport";
 
 import {RequestUser} from "../../decorators/request.decorator";
@@ -10,20 +10,20 @@ import {Product} from "./product.entity";
 import {ProductService} from './product.service';
 
 @Controller('product')
-@UseGuards(AuthGuard())
 export class ProductController {
     constructor(
         private readonly productService: ProductService,
     ) {}
 
     @Post()
+    @UseGuards(AuthGuard())
     create(@RequestUser() user: User, @Body() createProductDto: CreateProductDto) {
         return this.productService.create(user, createProductDto);
     }
 
     @Get()
-    findAll() {
-        return this.productService.findAll();
+    findAll(@Query('name') name: string): Promise<Product[]> {
+        return this.productService.findAll(name);
     }
 
     @Get(':id')
@@ -32,11 +32,13 @@ export class ProductController {
     }
 
     @Patch(':id')
+    @UseGuards(AuthGuard())
     update(@Param('id') id: string, @Body() updateProductDto: UpdateProductDto) {
         return this.productService.update(+id, updateProductDto);
     }
 
     @Delete(':id')
+    @UseGuards(AuthGuard())
     remove(@Param('id') id: string) {
         return this.productService.remove(+id);
     }

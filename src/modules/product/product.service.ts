@@ -1,6 +1,6 @@
 import {HttpException, HttpStatus, Injectable} from '@nestjs/common';
 import {InjectRepository} from "@nestjs/typeorm";
-import {Repository} from "typeorm";
+import {ILike, Repository} from "typeorm";
 
 import {Store} from "../store/entities/store.entity";
 import {StoreService} from "../store/store.service";
@@ -29,8 +29,9 @@ export class ProductService {
         return this.productRepository.save(product);
     }
 
-    findAll(): Promise<Product[]> {
-        return this.productRepository.find({});
+    findAll(name: string): Promise<Product[]> {
+        // TODO: Melhorar para usar full-text-search ou elastic search (analisar qual é mais adequado, em questão de caso de uso, performance e custo)
+        return this.productRepository.find({ where: { name: ILike(`%${name}%`)}, relations: ['store', 'media', 'media.file']});
     }
 
     findOneWithMedia(id: number): Promise<Product> {
